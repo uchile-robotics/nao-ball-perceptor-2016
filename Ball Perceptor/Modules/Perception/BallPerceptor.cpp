@@ -34,8 +34,8 @@ BallPerceptor::BallPerceptor()
 //Update Function
 void BallPerceptor::update(BallPercept& ballPercept)
 {
-  DECLARE_DEBUG_DRAWING("module:NewBallPerceptor2:image", "drawingOnImage");
-  DECLARE_DEBUG_DRAWING("module:NewBallPerceptor2:zdots", "drawingOnImage");
+  DECLARE_DEBUG_DRAWING("module:BallPerceptor:image", "drawingOnImage");
+  DECLARE_DEBUG_DRAWING("module:BallPerceptor:zdots", "drawingOnImage");
   scaleInput();
   
   //Calculate the image limits
@@ -476,14 +476,14 @@ void BallPerceptor::scanLine(Vector2<int> step, Vector2<int> init, Vector2<int> 
       {
         hasInit = true;
         init2 = origin;
-        DOT2("module:NewBallPerceptor2:zdots", origin.x, origin.y, ColorRGBA::green, ColorRGBA::green);
+        DOT2("module:BallPerceptor:zdots", origin.x, origin.y, ColorRGBA::green, ColorRGBA::green);
       }
       else
       {
         end2 = origin;
-        DOT2("module:NewBallPerceptor2:zdots", origin.x, origin.y, ColorRGBA::red, ColorRGBA::red);
+        DOT2("module:BallPerceptor:zdots", origin.x, origin.y, ColorRGBA::red, ColorRGBA::red);
         if (hasInit && ((horizontal && end2.x - init2.x < comp &&  end2.x - init2.x > min) || (!horizontal && end2.y - init2.y < comp &&  end2.y - init2.y > min))) {
-          LINE2("module:NewBallPerceptor2:image", init2.x, init2.y, end2.x, end2.y, 1, Drawings::ps_solid, ColorRGBA::violet);
+          LINE2("module:BallPerceptor:image", init2.x, init2.y, end2.x, end2.y, 1, Drawings::ps_solid, ColorRGBA::violet);
           Region r = { horizontal, init2, end2, -1 };
           regions.push_back(r);
         }
@@ -554,9 +554,9 @@ int BallPerceptor::createPentagons()
     {
       pentagonsCenter += Vector2<>(float(pentagon.center.x),float(pentagon.center.y));
       num++;
-      LINE2("module:NewBallPerceptor2:image", pentagon.width.x, pentagon.center.y, pentagon.width.y, pentagon.center.y, 1, Drawings::ps_solid, ColorRGBA::red);
-      LINE2("module:NewBallPerceptor2:image", pentagon.center.x, pentagon.heigth.x, pentagon.center.x, pentagon.heigth.y, 1, Drawings::ps_solid, ColorRGBA::red);
-      CROSS2("module:NewBallPerceptor2:image", pentagon.center.x, pentagon.center.y, 1, 1, Drawings::ps_solid, ColorRGBA::blue);
+      LINE2("module:BallPerceptor:image", pentagon.width.x, pentagon.center.y, pentagon.width.y, pentagon.center.y, 1, Drawings::ps_solid, ColorRGBA::red);
+      LINE2("module:BallPerceptor:image", pentagon.center.x, pentagon.heigth.x, pentagon.center.x, pentagon.heigth.y, 1, Drawings::ps_solid, ColorRGBA::red);
+      CROSS2("module:BallPerceptor:image", pentagon.center.x, pentagon.center.y, 1, 1, Drawings::ps_solid, ColorRGBA::blue);
     }
   }
   return num;
@@ -577,7 +577,7 @@ int BallPerceptor::validatePentagons()
         float dist = float((i->center - j->center).abs());
 		if (dist < radius + radius*radiusGap && dist > radius - radius*radiusGap) {
           num++;
-          LINE2("module:NewBallPerceptor2:image", i->center.x, i->center.y, j->center.x, j->center.y, 1, Drawings::ps_solid, ColorRGBA::red);
+          LINE2("module:BallPerceptor:image", i->center.x, i->center.y, j->center.x, j->center.y, 1, Drawings::ps_solid, ColorRGBA::red);
         }
       }
     }
@@ -588,13 +588,13 @@ int BallPerceptor::validatePentagons()
 //Debug Functions
 void BallPerceptor::drawBall(const Vector2<float>& pos) const
 {
-  CIRCLE2("module:NewBallPerceptor2:image", pos.x, pos.y, radius, 0.5, Drawings::ps_solid, ColorRGBA::black, Drawings::bs_solid, ColorRGBA(255, 128, 64, 100));
+  CIRCLE2("module:BallPerceptor:image", pos.x, pos.y, radius, 0.5, Drawings::ps_solid, ColorRGBA::black, Drawings::bs_solid, ColorRGBA(255, 128, 64, 100));
 }
 
 bool BallPerceptor::drawError(BallSpot ballSpot, std::string message)
 {
-  CROSS2("module:NewBallPerceptor2:image",ballSpot.position.x, ballSpot.position.y,1, 1, Drawings::ps_solid, ColorRGBA::black);
-  DRAWTEXT2("module:NewBallPerceptor2:image", ballSpot.position.x + 3, ballSpot.position.y + 2, 5, ColorRGBA::black, message);
+  CROSS2("module:BallPerceptor:image",ballSpot.position.x, ballSpot.position.y,1, 1, Drawings::ps_solid, ColorRGBA::black);
+  DRAWTEXT2("module:BallPerceptor:image", ballSpot.position.x + 3, ballSpot.position.y + 2, 5, ColorRGBA::black, message);
   return false;
 }
 
@@ -603,10 +603,10 @@ bool BallPerceptor::showRegionSizes(const BallSpot& ballSpot)
   float heightLength = ballSpot.height / 2;
   float widthLength = ballSpot.width / 2;
   drawError(ballSpot, "checkRegionSizes");
-  LINE2("module:NewBallPerceptor2:image", ballSpot.position.x, ballSpot.position.y, ballSpot.position.x + widthLength, ballSpot.position.y, 1, Drawings::ps_solid, ColorRGBA::violet);
-  LINE2("module:NewBallPerceptor2:image", ballSpot.position.x, ballSpot.position.y, ballSpot.position.x - widthLength, ballSpot.position.y, 1, Drawings::ps_solid, ColorRGBA::violet);
-  LINE2("module:NewBallPerceptor2:image", ballSpot.position.x, ballSpot.position.y, ballSpot.position.x, ballSpot.position.y + heightLength, 1, Drawings::ps_solid, ColorRGBA::violet);
-  LINE2("module:NewBallPerceptor2:image", ballSpot.position.x, ballSpot.position.y, ballSpot.position.x, ballSpot.position.y - heightLength, 1, Drawings::ps_solid, ColorRGBA::violet);
+  LINE2("module:BallPerceptor:image", ballSpot.position.x, ballSpot.position.y, ballSpot.position.x + widthLength, ballSpot.position.y, 1, Drawings::ps_solid, ColorRGBA::violet);
+  LINE2("module:BallPerceptor:image", ballSpot.position.x, ballSpot.position.y, ballSpot.position.x - widthLength, ballSpot.position.y, 1, Drawings::ps_solid, ColorRGBA::violet);
+  LINE2("module:BallPerceptor:image", ballSpot.position.x, ballSpot.position.y, ballSpot.position.x, ballSpot.position.y + heightLength, 1, Drawings::ps_solid, ColorRGBA::violet);
+  LINE2("module:BallPerceptor:image", ballSpot.position.x, ballSpot.position.y, ballSpot.position.x, ballSpot.position.y - heightLength, 1, Drawings::ps_solid, ColorRGBA::violet);
   return false;
 }
 

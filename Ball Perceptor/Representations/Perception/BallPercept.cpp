@@ -4,6 +4,7 @@
  * Very simple representation of a seen ball
  *
  * @author <a href="mailto:timlaue@informatik.uni-bremen.de">Tim Laue</a>
+ * @author Gabriel Azocar (minor modifications)
  */
 
 #include "BallPercept.h"

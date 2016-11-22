@@ -4,6 +4,13 @@
 * @author Gabriel Azocar
 * @author Pablo Cano
 * UChile Robotics Team
+*
+* Partially based on B-Human's ball perceptor of the coderelease 2014
+* whose authors are:
+* @author Colin Graf
+* @author marcel
+* @author Florian Maaß
+* @author Thomas Röfer
 */
 
 #pragma once
